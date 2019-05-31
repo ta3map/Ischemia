@@ -13,12 +13,12 @@ raw_frq = round(1e6/si);
 lfp_frq = 1e3;
 cftn=round(1e3/si);
 
-lfp = resample(data(1:end,ch) - mean(data(1:end,ch)), lfp_frq , raw_frq);
+lfp = resample(data(1:end,ch), lfp_frq , raw_frq);
 
 t_lfp = zeros(numel(lfp),1);
 t_lfp = (1:numel(lfp))/60e3;
 
-lfp_mv = lfp*0.003;% 0.007% 0.003% 0.0009
+%lfp_mv = lfp*0.003;% 0.007% 0.003% 0.0009
 %% plot lfp
 f = figure(1);
 f.Position = [10  240  960  540];
@@ -49,7 +49,7 @@ title([num2str(t1) '_' subfolder '_' name], 'interpreter', 'none')
 %% saving
 
 subfolder = 'lfp_trace';
-save([save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat'], 'lfp','lfp_mv','t_lfp', 'hd', 'ch');
+save([save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat'], 'lfp','t_lfp', 'hd', 'ch');
 
 subfolder = 'lfp_image';
 saveas(figure(1),[save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.jpg']);

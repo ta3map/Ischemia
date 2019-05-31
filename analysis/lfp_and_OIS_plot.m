@@ -1,4 +1,4 @@
-function lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder)
+function lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, tags)
 % clear all
 % t1 = 493
 % load_folder = 'D:\Neurolab\Data\Ischemia\Traces';
@@ -29,11 +29,12 @@ clf
 subplot(211)
 title(name, 'interpreter', 'none')
 hold on
-plot(t_lfp,lfp_mv)
+plot(t_lfp,lfp)
 
 Ylims = ylim;
 xlim([0 t_lfp(end)])
 
+if tags
 tag_y = Ylims(1);%[Ylims(2) - Ylims(1)]/3 + Ylims(1);
 i = 0;
 for active_tag = 1:size(hd.tags,2)
@@ -47,6 +48,7 @@ tagtext = [hd.tags(1,active_tag).comment];
 text(tag_x-0.5, tag_y,tagtext,'Rotation',90, 'color', 'r');
 TagTime(i) = tag_x;
 TagText(i) = {tagtext};
+end
 end
 
 ylabel(['LFP, ' hd.recChUnits{ch}])
@@ -71,8 +73,9 @@ p_time = Time + lost_time;
 h = plot(p_time,smSignalsIOS(n,:))
 set(h(n),'linewidth',2);
 
-
+if tags
 legend(legend_text)
+end
 
 xlim([0 Time(end)+ lost_time])
 
@@ -81,5 +84,5 @@ xlabel('Time, min')
 %% SAVE graph
 subfolder = 'lfp_and_OIS_image';
 saveas(figure(1),[save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.jpg']);
-
+disp('OIS and LFP plotted and saved')
 end

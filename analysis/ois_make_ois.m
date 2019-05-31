@@ -84,4 +84,5 @@ end
 release(mov);
 
 Time = (1:numel(SignalsIOS(n,:)))/24
+disp('OIS done')
 end

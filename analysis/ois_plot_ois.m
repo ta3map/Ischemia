@@ -77,4 +77,5 @@ text(10, 30, [num2str(round((m/24)*60))], 'Color', 'r', 'FontSize',10 );
 text(70, 30, ['sec'], 'Color', 'r', 'FontSize',10 );
 text(10, 60, [num2str(m/24,3)], 'Color', 'g', 'FontSize',12 );
 text(60, 60, ['min'], 'Color', 'g', 'FontSize',12 );
+disp('OIS plot done')
 end
