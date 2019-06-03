@@ -7,13 +7,18 @@ Protocol = readtable(protocol_path);
 id = find(Protocol.ID == t1, 1);
 name = Protocol.name{id};
 filepath = Protocol.ABFFile{id};
+% reading header
+[~, ~, hd]=abfload(filepath, 'stop',1);
+% name of interested channel
+chName = hd.recChNames(ch);
 
-[data, si, hd]=abfload(filepath);
+[data, si, hd]=abfload(filepath, 'channels', chName);
 raw_frq = round(1e6/si);
 lfp_frq = 1e3;
 cftn=round(1e3/si);
 
-lfp = resample(data(1:end,ch), lfp_frq , raw_frq);
+lfp = resample(data, lfp_frq , raw_frq);
+clear data
 
 t_lfp = zeros(numel(lfp),1);
 t_lfp = (1:numel(lfp))/60e3;
