@@ -4,12 +4,16 @@ cd('D:\Neurolab\ialdev\Ischemia\analysis')
 protocol_path = 'D:\Neurolab\ialdev\Ischemia\Protocol\IschemiaProtocol.xlsx'
 save_folder = 'D:\Neurolab\Data\Ischemia\Traces';
 load_folder = 'D:\Neurolab\Data\Ischemia\Traces';
-t1 = 497
+t1 = 503
 Protocol = readtable(protocol_path);
 id = find(Protocol.ID == t1, 1);
 name = Protocol.name{id};
 %% make LFP
-lfp_make_lfp(protocol_path, t1, save_folder, 1)
+ch = 3
+lfp_make_lfp(protocol_path, t1, save_folder, ch)
+%% make cell
+ch = 1
+cell_make_cell(protocol_path, t1, save_folder, ch)
 %% Load OIS data
 startframe = 1;
 eachframe = 5;
@@ -28,5 +32,7 @@ subfolder = 'ios_trace';
 save([save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat'], 'protocol_path', 't1', 'SignalsIOS', 'Time', 'Ylim', 'n_probes', 'ios_frame', 'pos', 'baseframe','eachframe');
 subfolder = 'ios_image';
 saveas(figure(1),[save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.jpg']);
-%% LFP and IOS
+%% LFP and OIS
 lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, 0)
+%% Cell_LFP_and_OIS
+cell_lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, 1)

@@ -1,0 +1,64 @@
+function cell_make_cell(protocol_path, t1, save_folder, ch)
+
+%protocol_path = 'D:\Neurolab\Ischemia YG\Protocol\IschemiaYGProtocol.xlsx'
+Protocol = readtable(protocol_path);
+
+%% making wcell
+id = find(Protocol.ID == t1, 1);
+name = Protocol.name{id};
+filepath = Protocol.ABFFile{id};
+% reading header
+[~, ~, hd]=abfload(filepath, 'stop',1);
+% name of interested channel
+chName = hd.recChNames(ch);
+
+[data, si, hd]=abfload(filepath, 'channels', chName);
+raw_frq = round(1e6/si);
+wcell_frq = 1e3;
+cftn=round(1e3/si);
+
+wcell = resample(data, wcell_frq , raw_frq);
+clear data
+
+t_wcell = zeros(numel(wcell),1);
+t_wcell = (1:numel(wcell))/60e3;
+
+%wcell_mv = wcell*0.003;% 0.007% 0.003% 0.0009
+%% plot wcell
+f = figure(1);
+f.Position = [10  240  960  540];
+clf
+hold on
+plot(t_wcell,wcell, 'k', 'linewidth', 2)
+
+Ylims = ylim;
+tag_y = Ylims(1);%[Ylims(2) - Ylims(1)]/3 + Ylims(1);
+i = 0;
+for active_tag = 1:size(hd.tags,2)
+    i = i+1;
+    tag_x = hd.tags(1,active_tag).timeSinceRecStart * hd.fADCSampleInterval/60;
+    %tag_y = tag_y + 3*abs(min(wcell)/10);
+Lines(tag_x, [], 'b', '--');
+
+tagtext = [hd.tags(1,active_tag).comment];
+
+text(tag_x-0.5, tag_y,tagtext,'Rotation',90, 'color', 'r');
+TagTime(i) = tag_x;
+TagText(i) = {tagtext};
+end
+xlim([0 t_wcell(end)])
+%ylim([0,4000])
+ylabel(['whole cell, ' hd.recChUnits{ch}])
+subfolder = 'wcell_trace';
+title([num2str(t1) '_' subfolder '_' name], 'interpreter', 'none')
+%% saving
+
+subfolder = 'wcell_trace';
+save([save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat'], 'wcell','t_wcell', 'hd', 'ch');
+
+subfolder = 'wcell_image';
+saveas(figure(1),[save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.jpg']);
+disp('saved')
+
+
+end
