@@ -1,4 +1,4 @@
-function cell_lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, tags)
+function cell_lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, tags, puff)
 % clear all
 % t1 = 493
 % load_folder = 'D:\Neurolab\Data\Ischemia\Traces';
@@ -14,7 +14,9 @@ name = Protocol.name{id};
 
 subfolder = 'wcell_trace';
 load([load_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat']);
-
+%% load puff triggers
+subfolder = 'puff_triggers';
+load([load_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat']);
 %% Load LFP
 subfolder = 'lfp_trace';
 load([load_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat']);
@@ -45,6 +47,7 @@ plot(t_lfp,lfp)
 
 Ylims = ylim;
 xlim([0 t_lfp(end)])
+Xlims = xlim;
 
 if tags
 tag_y = Ylims(1);%[Ylims(2) - Ylims(1)]/3 + Ylims(1);
@@ -62,6 +65,21 @@ TagTime(i) = tag_x;
 TagText(i) = {tagtext};
 end
 end
+Ysize = Ylims(2) - Ylims(1);
+Xsize = Xlims(2) - Xlims(1);
+if puff
+    %Lines(trigger_time,[], 'b', '--');
+    for k = 1:numel(trigger_time)
+     point1 = [trigger_time(k) Ylims(1)];
+     point2 = [trigger_time(k) [Ylims(2) - Ylims(1)]/6 + Ylims(1)];
+     arrow(point1,point2,8,'width',0.5, 'color', 'red')
+    
+    %text(trigger_time(k), Ylims(2)+Ysize/20, '\mid', 'fontsize', 18, 'color', 'red')
+    
+    end
+    text(trigger_time(1)+Xsize/100, Ylims(1)+Ysize/15, 'puff')
+end
+
 
 ylabel(['LFP, ' hd.recChUnits{ch}])
 
