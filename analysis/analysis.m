@@ -1,21 +1,21 @@
 
 clear all
 cd('D:\Neurolab\ialdev\Ischemia\analysis')
-protocol_path = 'D:\Neurolab\ialdev\Ischemia\Protocol\IschemiaProtocol.xlsx'
+protocol_path = 'D:\Neurolab\ialdev\Ischemia\Protocol\IschemiaProtocol.xlsx';
 save_folder = 'D:\Neurolab\Data\Ischemia\Traces';
 load_folder = 'D:\Neurolab\Data\Ischemia\Traces';
-t1 = 503
+t1 = 504;
 Protocol = readtable(protocol_path);
 id = find(Protocol.ID == t1, 1);
 name = Protocol.name{id};
 %% make LFP
-ch = 3
+ch = 3;
 lfp_make_lfp(protocol_path, t1, save_folder, ch);
 %% make cell
-ch = 1
+ch = 1;
 cell_make_cell(protocol_path, t1, save_folder, ch);
 %% puff triggers
-ch = 5
+ch = 5;
 puff_triggers(protocol_path, t1, save_folder, ch);
 %% Load OIS data
 startframe = 1;
@@ -25,10 +25,10 @@ v_path = Protocol.IOSFile{id};
 disp('OIS data loaded')
 %% make OIS with probes
 n_probes = 2;% number of probes
-[ios_frame, baseframe, SignalsIOS, Time, pos] = ois_make_ois(v_data, v_t, protocol_path, t1, n_probes, eachframe, save_folder);
+[ios_frame, baseframe, SignalsIOS, Time, pos] = ois_make_ois(v_data, v_t, protocol_path, t1, n_probes, save_folder);
 %% plot OIS
 interested_probe = 1;
-Ylim =[-13 20]
+Ylim =[-10 30]
 ois_plot_ois(protocol_path, t1, SignalsIOS, Time, Ylim, n_probes, ios_frame, pos, interested_probe)
 %% save all about OIS
 subfolder = 'ios_trace';
