@@ -1,4 +1,4 @@
-function cell_lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, tags, puff)
+function cell_lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, tags, puff, LFP_Ylim, wcell_Ylim, OIS_Ylim)
 % clear all
 % t1 = 493
 % load_folder = 'D:\Neurolab\Data\Ischemia\Traces';
@@ -31,19 +31,25 @@ f = figure(1);
 f.Position = [10  240  960  540];
 clf
 %% plot Cell
+ch = 1
 subplot(311)
 title(name, 'interpreter', 'none')
 hold on
 plot(t_wcell,wcell)
+
+ylim(wcell_Ylim);
 
 Ylims = ylim;
 xlim([0 t_wcell(end)])
 
 ylabel(['Whole cell, ' hd.recChUnits{ch}])
 %% plot LFP
+ch = 3
 subplot(312)
 hold on
 plot(t_lfp,lfp)
+
+ylim(LFP_Ylim);
 
 Ylims = ylim;
 xlim([0 t_lfp(end)])
@@ -85,7 +91,8 @@ ylabel(['LFP, ' hd.recChUnits{ch}])
 
 %% plot OIS
 subplot(313)
-Ylims = [-40 60]
+
+ylim(OIS_Ylim);
 
 
 hold on

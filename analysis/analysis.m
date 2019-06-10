@@ -4,7 +4,7 @@ cd('D:\Neurolab\ialdev\Ischemia\analysis')
 protocol_path = 'D:\Neurolab\ialdev\Ischemia\Protocol\IschemiaProtocol.xlsx';
 save_folder = 'D:\Neurolab\Data\Ischemia\Traces';
 load_folder = 'D:\Neurolab\Data\Ischemia\Traces';
-t1 = 504;
+t1 = 507
 Protocol = readtable(protocol_path);
 id = find(Protocol.ID == t1, 1);
 name = Protocol.name{id};
@@ -28,7 +28,7 @@ n_probes = 2;% number of probes
 [ios_frame, baseframe, SignalsIOS, Time, pos] = ois_make_ois(v_data, v_t, protocol_path, t1, n_probes, save_folder);
 %% plot OIS
 interested_probe = 1;
-Ylim =[-10 30]
+Ylim =[-10 5]
 ois_plot_ois(protocol_path, t1, SignalsIOS, Time, Ylim, n_probes, ios_frame, pos, interested_probe)
 %% save all about OIS
 subfolder = 'ios_trace';
@@ -38,4 +38,7 @@ saveas(figure(1),[save_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' na
 %% LFP and OIS
 lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, 0)
 %% Cell_LFP_and_OIS
-cell_lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, 0,1)
+LFP_Ylim = [-3000 -900]
+wcell_Ylim = [-140 -100]
+OIS_Ylim = [-5 5]
+cell_lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, 0,1, LFP_Ylim, wcell_Ylim, OIS_Ylim)
