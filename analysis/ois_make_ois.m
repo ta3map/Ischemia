@@ -1,4 +1,4 @@
-function [ios_frame, baseframe, SignalsIOS, Time, pos] = ois_make_ois(v_data, v_t,protocol_path, t1, n_probes, eachframe, save_folder)
+function [ios_frame, baseframe, SignalsIOS, Time, pos] = ois_make_ois(v_data, v_t, protocol_path, t1, n_probes, save_folder)
 Protocol = readtable(protocol_path);
 id = find(Protocol.ID == t1, 1);
 name = Protocol.name{id};
@@ -63,7 +63,7 @@ axis off
 caxis([-40 40])
 
 text(10, 10, [num2str(m)], 'Color', 'r', 'FontSize',12 );
-text(70, 10, ['frame x' num2str(eachframe)], 'Color', 'r', 'FontSize',12 );
+%text(70, 10, ['frame x' num2str(eachframe)], 'Color', 'r', 'FontSize',12 );
 text(10, 30, [num2str(round((m/24)*60))], 'Color', 'r', 'FontSize',12 );
 text(70, 30, ['sec'], 'Color', 'r', 'FontSize',12 );
 text(10, 60, [num2str(m/24,3)], 'Color', 'g', 'FontSize',14 );
@@ -84,5 +84,4 @@ end
 release(mov);
 
 Time = (1:numel(SignalsIOS(n,:)))/24
-disp('OIS done')
 end
