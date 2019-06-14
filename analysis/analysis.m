@@ -1,10 +1,11 @@
 
 clear all
+t1 = 525
+
 cd('D:\Neurolab\ialdev\Ischemia\analysis')
 protocol_path = 'D:\Neurolab\ialdev\Ischemia\Protocol\IschemiaProtocol.xlsx';
 save_folder = 'D:\Neurolab\Data\Ischemia\Traces';
 load_folder = 'D:\Neurolab\Data\Ischemia\Traces';
-t1 = 517
 Protocol = readtable(protocol_path);
 id = find(Protocol.ID == t1, 1);
 name = Protocol.name{id};
@@ -35,7 +36,7 @@ n_probes = 2;% number of probes
 [ios_frame, baseframe, SignalsIOS, Time, pos] = ois_make_ois(v_data, v_t, protocol_path, t1, n_probes, save_folder);
 %% plot OIS
 interested_probe = 1;
-Ylim =[-8 10]
+Ylim =[-8 12]
 ois_plot_ois(protocol_path, t1, SignalsIOS, Time, Ylim, n_probes, ios_frame, pos, interested_probe)
 % save all about OIS
 subfolder = 'OIS_trace';
@@ -46,9 +47,9 @@ disp('saved')
 %% LFP and OIS
 lfp_and_OIS_plot(protocol_path, t1, load_folder, save_folder, 1)
 %% Cell_LFP_and_OIS
-wcell_Ylim = [0 200]
-LFP_Ylim = [-300 2000]
-OIS_Ylim = [-8 1]
+wcell_Ylim = [-80 50]
+LFP_Ylim = [3000 5000]
+OIS_Ylim = [-8 8]
 
 [lost_time] = find_lost_time(Protocol, id)
 tags = 1;
