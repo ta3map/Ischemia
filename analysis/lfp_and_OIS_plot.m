@@ -17,7 +17,7 @@ load([load_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat']);
 
 %% load OIS
 
-subfolder = 'ios_trace';
+subfolder = 'OIS_trace';
 load([load_folder '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mat']);
 
 %% setup figure

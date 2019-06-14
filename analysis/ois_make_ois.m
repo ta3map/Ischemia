@@ -14,7 +14,7 @@ colormap(gray)
 imagesc((baseframe))
 imagesc((v_data(:,:,1, 1)));
 
-subfolder = 'ios_video';
+subfolder = 'OIS_video';
 v_out = [save_folder  '\' subfolder '\' num2str(t1) '_' subfolder '_' name '.mp4'];
 mov = vision.VideoFileWriter('Filename', v_out, 'FileFormat', 'MPEG4');
 set(mov, 'FrameRate', 30, 'AudioInputPort', false, 'VideoCompressor', 'DV Video Encoder');
