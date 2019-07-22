@@ -1,6 +1,6 @@
 
 clear all
-t1 = 525
+t1 = 526
 
 cd('D:\Neurolab\ialdev\Ischemia\analysis')
 protocol_path = 'D:\Neurolab\ialdev\Ischemia\Protocol\IschemiaProtocol.xlsx';
